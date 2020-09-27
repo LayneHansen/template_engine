@@ -8,7 +8,7 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./lib/htmlRenderer");
+const render = require("./lib/html.Renderer.js");
 
 
 // Write code to use inquirer to gather information about the development team members,
@@ -21,18 +21,19 @@ await inquirer
     {
         type: "input",
         message: "What is your first name?",
-        name: "first_name"
+        name: "name"
     },
     {
         type: "list",
         message: "What is your role?",
-        name: "job_title",
+        name: "role",
         choices: 
         [
             "Manager",
             "Engineer",
             "Intern",
         ]
+    
     },
     {
         type: "input",
@@ -47,14 +48,34 @@ await inquirer
     
     ])
 
-    // .then(function(response)) {
+    .then((data) => {
+        var input = render(data);
         
+        name = data.name;
+        role = data.role;
+        email = data.email;
+        github = data.github;
 
-    // }
+        console.log(data.name)
+
+        writeToFile("main.html", input);
+
+    })
 
 }
 
 start();
+
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, function(err) {
+
+        if (err) {
+            return console.log(err);
+        }
+    });
+}
+
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
