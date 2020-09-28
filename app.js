@@ -1,3 +1,4 @@
+const Employee = require("./lib/Employee")
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -20,7 +21,7 @@ await inquirer
     .prompt([
     {
         type: "input",
-        message: "What is your first name?",
+        message: "What is your name?",
         name: "name"
     },
     {
@@ -51,10 +52,10 @@ await inquirer
     .then((data) => {
         var input = render(data);
         
-        name = data.name;
-        role = data.role;
-        email = data.email;
-        github = data.github;
+        data.name = name;
+        data.role = role;
+        data.email = email;
+        data.github = github;
 
         console.log(data.name)
 
@@ -62,19 +63,24 @@ await inquirer
 
     })
 
+    .catch(function(err) {
+        console.log(err)
+    })
+
 }
+
 
 start();
 
-function writeToFile(fileName, data) {
-    console.log(writeToFile);
-    fs.writeFile(fileName, data, function(err) {
+// function writeToFile(fileName, data) {
+//     console.log(writeToFile);
+//     fs.writeFile(fileName, data, function(err) {
 
-        if (err) {
-            return console.log(err);
-        }
-    });
-}
+//         if (err) {
+//             return console.log(err);
+//         }
+//     });
+// }
 
 
 
