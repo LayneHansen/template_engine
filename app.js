@@ -6,6 +6,7 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 const render = require("./lib/htmlRenderer.js");
+const totalEmployees = [];
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -14,16 +15,77 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+// prompt inquirer, creates a manager
+
+async function createManager () {
+    const data = await inquirer.prompt
+    ([
+        {
+            type: "input",
+            message: "What is the employee's ID number?",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "What is your name?",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What is your email address?",
+            name: "email"
+        },
+        {
+            type: "input",
+            message: "What is the manager's office number?",
+            name: "officeNumber"
+        }
+    ])
+    var manager = new Manager(data.id, data.name, data.email, data.officeNumber);
+    return manager;
+}
+
+
+async function moreEmployees () {
+    const data = await inquirer.prompt
+    ([
+        {
+            type: "list",
+            message: "Are there more employees to add?",
+            name: "more",
+            choices: 
+            [
+                "Yes",
+                "No"
+            ]
+        }
+    ])
+
+    // if yes, run start();
+    if (data.more === "Yes") {
+        start();
+    } else {
+
+    }
+    // if no, render and write
+}
 
 async function start() {
+    // console.log("Is this working?")
 
-await inquirer
+    
+inquirer
     .prompt([
-    {
-        type: "input",
-        message: "What is your name?",
-        name: "name"
-    },
+    // {
+    //     type: "input",
+    //     message: "What is your name?",
+    //     name: "name"
+    // },
+    // {
+    //     type: "input",
+    //     message: "What is your email address?",
+    //     name: "email"
+    // },
     {
         type: "list",
         message: "What is your role?",
@@ -35,33 +97,34 @@ await inquirer
             "Intern",
         ]
     },
-    {
-        type: "input",
-        message: "What is your email address?",
-        name: "email"
-    },
-    {
-        type: "input",
-        message: "What is your Github username?",
-        name: "github"
-    }
+    // {
+    //     type: "input",
+    //     message: "What is your Github username?",
+    //     name: "github"
+    // }
     
     ])
 
-    .then((data) => {
+    .then(async(data) => {
         // var input = render(data);
-        // writeToFile("main.html", input);
+        // create object that includes name, email, id
+        // console.log(input);
+        // fs.writeFile(outputPath, data, function(err) {
+        //     if (err) {
+        //         return console.log(err);
+        //     }
+        // })
         
-        // data.name = name;
-        // data.role = role;
-        // data.email = email;
-        // data.github = github;
+        // writeToFile("main.html", input);
+        // console.log(data);  
+      
+        if (data.role === "Manager") {
+            var manager = await createManager();
+            console.log(manager);
+            totalEmployees.push(manager);
+        }
 
-        // console.log(name);
-        // console.log(role);
-        // console.log(email);
-        // console.log(github);
-
+        moreEmployees ();
 
     })
 
