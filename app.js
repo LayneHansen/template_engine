@@ -34,7 +34,6 @@ await inquirer
             "Engineer",
             "Intern",
         ]
-    
     },
     {
         type: "input",
@@ -50,16 +49,19 @@ await inquirer
     ])
 
     .then((data) => {
-        var input = render(data);
+        // var input = render(data);
+        // writeToFile("main.html", input);
         
-        data.name = name;
-        data.role = role;
-        data.email = email;
-        data.github = github;
+        // data.name = name;
+        // data.role = role;
+        // data.email = email;
+        // data.github = github;
 
-        console.log(data.name)
+        // console.log(name);
+        // console.log(role);
+        // console.log(email);
+        // console.log(github);
 
-        writeToFile("main.html", input);
 
     })
 
