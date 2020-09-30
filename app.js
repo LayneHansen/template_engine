@@ -1,4 +1,4 @@
-const Employee = require("./lib/Employee")
+const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -21,168 +21,175 @@ async function start() {
 
     inquirer
         .prompt([
-        {
-            type: "list",
-            message: "What is your role?",
-            name: "role",
-            choices: 
-            [
-                "Manager",
-                "Engineer",
-                "Intern",
-            ]
-        },
-        
-        ])
-    
-        .then(async(data) => {
-            // var input = render(data);
-            // create object that includes name, email, id
-            // console.log(input);
-            // fs.writeFile(outputPath, data, function(err) {
-            //     if (err) {
-            //         return console.log(err);
-            //     }
-            // })
-            
-            // writeToFile("main.html", input);
-            // console.log(data);  
-          
+            {
+                {
+                    type: "input",
+                    message: "What is the employee's ID number?",
+                    name: "id"
+                },
+                {
+                    type: "input",
+                    message: "What is your name?",
+                    name: "name"
+                },
+                {
+                    type: "input",
+                    message: "What is your email address?",
+                    name: "email"
+                },
+                {
+                    type: "list",
+                    message: "What is your role?",
+                    name: "role",
+                    choices:
+                        [
+                            "Manager",
+                            "Engineer",
+                            "Intern"
+                        ]
+                }
+
+            ])
+
+        .then(async (data) => {  
+
             if (data.role === "Manager") {
                 var manager = await createManager();
-                console.log(manager);
+                // console.log(manager);
                 totalEmployees.push(manager);
-            } else if (data.role === "Engineer") {
+                // moreEmployees();
+    
+            } 
+            
+            if (data.role === "Engineer") {
                 var engineer = await createEngineer();
                 console.log(manager);
                 totalEmployees.push(engineer);
-            } else if (data.role === "Intern"); {
+                // moreEmployees();
+            }
+            
+            if (data.role === "Intern"); {
                 var intern = await createIntern();
                 console.log(intern);
                 totalEmployees.push(intern);
-            }
-    
-            moreEmployees ();
-    
+                // moreEmployees();
+            } 
+
         })
-    
-        .catch(function(err) {
+
+        .catch(function (err) {
             console.log(err)
         })
-    
-    }
 
-async function createManager () {
+}
+
+async function createManager() {
+    console.log("manager");
     const data = await inquirer.prompt
-    ([
-        {
-            type: "input",
-            message: "What is the employee's ID number?",
-            name: "id"
-        },
-        {
-            type: "input",
-            message: "What is your name?",
-            name: "name"
-        },
-        {
-            type: "input",
-            message: "What is your email address?",
-            name: "email"
-        },
-        {
-            type: "input",
-            message: "What is the manager's office number?",
-            name: "officeNumber"
-        }
-    ])
+        ([
+           
+            {
+                type: "input",
+                message: "What is the manager's office number?",
+                name: "officeNumber"
+            }
+        ])
     var manager = new Manager(data.id, data.name, data.email, data.officeNumber);
     return manager;
 }
 
-async function createEngineer () {
+async function createEngineer() {
+    console.log("engineer")
     const data = await inquirer.prompt
-    ([
-        {
-            type: "input",
-            message: "What is the employee's ID number?",
-            name: "id"
-        },
-        {
-            type: "input",
-            message: "What is your name?",
-            name: "name"
-        },
-        {
-            type: "input",
-            message: "What is your email address?",
-            name: "email"
-        },
-        {
-            type: "input",
-            message: "What is their Github username?",
-            name: "github"
-        }
-    ])
+        ([
+            {
+                type: "input",
+                message: "What is the employee's ID number?",
+                name: "id"
+            },
+            {
+                type: "input",
+                message: "What is your name?",
+                name: "name"
+            },
+            {
+                type: "input",
+                message: "What is your email address?",
+                name: "email"
+            },
+            {
+                type: "input",
+                message: "What is their Github username?",
+                name: "github"
+            }
+        ])
     var engineer = new Engineer(data.id, data.name, data.email, data.github);
     return engineer;
 }
 
-async function createIntern () {
+async function createIntern() {
+    console.log("intern");
     const data = await inquirer.prompt
-    ([
-        {
-            type: "input",
-            message: "What is the employee's ID number?",
-            name: "id"
-        },
-        {
-            type: "input",
-            message: "What is your name?",
-            name: "name"
-        },
-        {
-            type: "input",
-            message: "What is your email address?",
-            name: "email"
-        },
-        {
-            type: "input",
-            message: "Where does the intern go to school?",
-            name: "school"
-        }
-    ])
+        ([
+            {
+                type: "input",
+                message: "What is the employee's ID number?",
+                name: "id"
+            },
+            {
+                type: "input",
+                message: "What is your name?",
+                name: "name"
+            },
+            {
+                type: "input",
+                message: "What is your email address?",
+                name: "email"
+            },
+            {
+                type: "input",
+                message: "Where does the intern go to school?",
+                name: "school"
+            }
+        ])
     var intern = new Intern(data.id, data.name, data.email, data.school);
     return intern;
 }
 
 
-async function moreEmployees () {
+async function moreEmployees() {
     const data = await inquirer.prompt
-    ([
-        {
-            type: "list",
-            message: "Are there more employees to add?",
-            name: "more",
-            choices: 
-            [
-                "Yes",
-                "No"
-            ]
-        }
-    ])
+        ([
+            {
+                type: "list",
+                message: "Are there more employees to add?",
+                name: "more",
+                choices:
+                    [
+                        "Yes",
+                        "No"
+                    ]
+            }
+        ])
 
     // if yes, run start();
     if (data.more === "Yes") {
         start();
     } else {
-
-    }
+        render(totalEmployees);
+        console.log(render);
+    
+        fs.writeFile(outputPath, data, function(err) {
+            if (err) {
+            return console.log(err);
+        }
+    
     // if no, render and write
+
+    })
+
 }
-
-
-
+}
 
 start();
 
