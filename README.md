@@ -21,6 +21,9 @@ Final Product:
 
 ![Final Product](./assets/team_info_screenshot.png)
 
+Walkthrough Video:
+https://www.youtube.com/watch?v=4zaGLvjZYpM&feature=youtu.be
+
 ## Description
 This application allows the user to create cards that display information about team members. More prompts can be added as needed.
 
