@@ -80,19 +80,13 @@ function start() {
 
             if (data.role === "Manager") {
                 var manager = new Manager(data.id, data.name, data.email, data.officeNumber);
-                console.log(manager);
                 totalEmployees.push(manager);
-                console.log(totalEmployees);
             } else if (data.role === "Engineer") {
                 var engineer = new Engineer(data.id, data.name, data.email, data.github);
-                console.log(engineer);
                 totalEmployees.push(engineer);
-                console.log(totalEmployees);
             } else if (data.role === "Intern") {
                 var intern = new Intern(data.id, data.name, data.email, data.school);
-                console.log(intern);
                 totalEmployees.push(intern);
-                console.log(totalEmployees);
             } 
 
             if (data.addEmployee === true) {
