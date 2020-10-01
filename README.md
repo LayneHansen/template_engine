@@ -15,7 +15,7 @@
 ## Images
 Node View:
 
-![Node View](./nodeview_screenshot.png)
+![Node View](./assets/template_nodeview_screenshot.png)
 
 Final Product:
 
