@@ -1,4 +1,3 @@
-const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -11,70 +10,99 @@ const totalEmployees = [];
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-
-
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 // prompt inquirer, creates a manager
 
-async function start() {
+function start() {
 
     inquirer
         .prompt([
             {
-                {
-                    type: "input",
-                    message: "What is the employee's ID number?",
-                    name: "id"
-                },
-                {
-                    type: "input",
-                    message: "What is your name?",
-                    name: "name"
-                },
-                {
-                    type: "input",
-                    message: "What is your email address?",
-                    name: "email"
-                },
-                {
-                    type: "list",
-                    message: "What is your role?",
-                    name: "role",
-                    choices:
-                        [
-                            "Manager",
-                            "Engineer",
-                            "Intern"
-                        ]
+                type: "input",
+                message: "What is the employee's ID number?",
+                name: "id"
+            },
+            {
+                type: "input",
+                message: "What is your name?",
+                name: "name"
+            },
+            {
+                type: "input",
+                message: "What is your email address?",
+                name: "email"
+            },
+            {
+                type: "list",
+                message: "What is your role?",
+                name: "role",
+                choices:
+                    [
+                        "Manager",
+                        "Engineer",
+                        "Intern"
+                    ]
+            },
+            {
+                type: "input",
+                message: "What is the manager's office number?",
+                name: "officeNumber",
+                when: function (data) {
+                    return data.role === "Manager";
                 }
+            },
+            {
+                type: "input",
+                message: "What is the engineer's github username?",
+                name: "github",
+                when: function (data) {
+                    return data.role === "Engineer";
+                }
+            },
+            {
+                type: "input",
+                message: "Where does the intern go to school?",
+                name: "school",
+                when: function (data) {
+                    return data.role === "Intern";
+                }
+            },
+            {
+                type: "confirm",
+                message: "Do you want to add any more employees?",
+                name: "addEmployee",
+            },
 
-            ])
+        ])
 
-        .then(async (data) => {  
+        .then((data) => {
 
             if (data.role === "Manager") {
-                var manager = await createManager();
-                // console.log(manager);
-                totalEmployees.push(manager);
-                // moreEmployees();
-    
-            } 
-            
-            if (data.role === "Engineer") {
-                var engineer = await createEngineer();
+                var manager = new Manager(data.id, data.name, data.email, data.officeNumber);
                 console.log(manager);
+                totalEmployees.push(manager);
+                console.log(totalEmployees);
+            } else if (data.role === "Engineer") {
+                var engineer = new Engineer(data.id, data.name, data.email, data.github);
                 totalEmployees.push(engineer);
-                // moreEmployees();
-            }
-            
-            if (data.role === "Intern"); {
-                var intern = await createIntern();
-                console.log(intern);
+            } else if (data.role === "Intern"); {
+                var intern = new Intern(data.id, data.name, data.email, data.school);
                 totalEmployees.push(intern);
-                // moreEmployees();
             } 
 
+            if (data.addEmployee === true) {
+                start();
+            } else {
+                const printEmployees = render(totalEmployees);
+                fs.writeFile(outputPath, printEmployees, function(err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                })
+            }
+
+            
         })
 
         .catch(function (err) {
@@ -83,126 +111,7 @@ async function start() {
 
 }
 
-async function createManager() {
-    console.log("manager");
-    const data = await inquirer.prompt
-        ([
-           
-            {
-                type: "input",
-                message: "What is the manager's office number?",
-                name: "officeNumber"
-            }
-        ])
-    var manager = new Manager(data.id, data.name, data.email, data.officeNumber);
-    return manager;
-}
-
-async function createEngineer() {
-    console.log("engineer")
-    const data = await inquirer.prompt
-        ([
-            {
-                type: "input",
-                message: "What is the employee's ID number?",
-                name: "id"
-            },
-            {
-                type: "input",
-                message: "What is your name?",
-                name: "name"
-            },
-            {
-                type: "input",
-                message: "What is your email address?",
-                name: "email"
-            },
-            {
-                type: "input",
-                message: "What is their Github username?",
-                name: "github"
-            }
-        ])
-    var engineer = new Engineer(data.id, data.name, data.email, data.github);
-    return engineer;
-}
-
-async function createIntern() {
-    console.log("intern");
-    const data = await inquirer.prompt
-        ([
-            {
-                type: "input",
-                message: "What is the employee's ID number?",
-                name: "id"
-            },
-            {
-                type: "input",
-                message: "What is your name?",
-                name: "name"
-            },
-            {
-                type: "input",
-                message: "What is your email address?",
-                name: "email"
-            },
-            {
-                type: "input",
-                message: "Where does the intern go to school?",
-                name: "school"
-            }
-        ])
-    var intern = new Intern(data.id, data.name, data.email, data.school);
-    return intern;
-}
-
-
-async function moreEmployees() {
-    const data = await inquirer.prompt
-        ([
-            {
-                type: "list",
-                message: "Are there more employees to add?",
-                name: "more",
-                choices:
-                    [
-                        "Yes",
-                        "No"
-                    ]
-            }
-        ])
-
-    // if yes, run start();
-    if (data.more === "Yes") {
-        start();
-    } else {
-        render(totalEmployees);
-        console.log(render);
-    
-        fs.writeFile(outputPath, data, function(err) {
-            if (err) {
-            return console.log(err);
-        }
-    
-    // if no, render and write
-
-    })
-
-}
-}
-
 start();
-
-// function writeToFile(fileName, data) {
-//     console.log(writeToFile);
-//     fs.writeFile(fileName, data, function(err) {
-
-//         if (err) {
-//             return console.log(err);
-//         }
-//     });
-// }
-
 
 
 // After the user has input all employees desired, call the `render` function (required
